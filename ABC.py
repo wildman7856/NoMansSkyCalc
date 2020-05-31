@@ -28,7 +28,7 @@ def combinations(lst, n):
     return output
 
 # Use combinations from itertools to create all possible combinations (selecting 5)
-unique_combinations = combinations(ship_data.keys(), 5)
+unique_combinations = combinations(list(ship_data.keys()), 5)
 
 # filter the combinations by calculating the total of the scores for each ship in the combination
 filtered_combinations = [combo for combo in unique_combinations if sum([ship_data[ship]['score'] for ship in combo]) <= target]
