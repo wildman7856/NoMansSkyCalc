@@ -1,4 +1,3 @@
-from itertools import combinations
 target = 20
 
 # Store data in a dictionary so it can be called by name
@@ -11,6 +10,22 @@ ship_data = {
     "f":{"score":5, "fuel":9},
     "g":{"score":6, "fuel":10},
 }
+
+def combinations(lst, n): 
+    """recursively creates a list of unique combinations"""
+    if n == 0: 
+        return [[]] 
+      
+    output = [] 
+    for i in range(0, len(lst)): 
+          
+        fist_selection = lst[i] 
+        remaining_items = lst[i + 1:] 
+          
+        for next_selection in combinations(remaining_items, n-1): 
+            output.append([fist_selection]+next_selection) 
+              
+    return output
 
 # Use combinations from itertools to create all possible combinations (selecting 5)
 unique_combinations = combinations(ship_data.keys(), 5)
