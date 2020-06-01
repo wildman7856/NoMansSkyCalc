@@ -28,19 +28,45 @@ def combinations(lst, n):
     return output
 
 # Use combinations from itertools to create all possible combinations (selecting 5)
-unique_combinations = combinations(list(ship_data.keys()), 5)
+
+# unique_combinations = combinations(list(ship_data.keys()), 5)
+
+unique_combinations = []
+for number_of_ships in range(6):
+    for combo in combinations(list(ship_data.keys()), number_of_ships):
+        unique_combinations.append(combo)
 
 # filter the combinations by calculating the total of the scores for each ship in the combination
-filtered_combinations = [combo for combo in unique_combinations if sum([ship_data[ship]['score'] for ship in combo]) <= target]
 
-# print results
+#filtered_combinations = [combo for combo in unique_combinations if sum([ship_data[ship]['score'] for ship in combo]) <= target]
+# Converted list comprehension into nested for loops -- easier to translate into VBA
+filtered_combinations = []
+for combo in unique_combinations:
+    current_combo_total_score = 0
+    for ship in combo:
+        current_combo_total_score += ship_data[ship]['score']
+    if current_combo_total_score >= target:
+        filtered_combinations.append(combo)
+
+
+def calculate_fuel(ships):
+    """Placeholder function to allow for future fuel consumption updates"""
+    return sum([ship_data[ship]['fuel'] for ship in ships])
+
+results = []
 for combo in filtered_combinations:
     score = sum([ship_data[ship]['score'] for ship in combo])
-    fuel = sum([ship_data[ship]['fuel'] for ship in combo])
-    print(f"\nShips: {combo}")
-    print(f"\tScore: {score}")
-    print(f"\tFuel: {fuel}")
+    fuel = calculate_fuel(combo)
+    results.append({
+        "ships":combo,
+        "score":score,
+        "fuel":fuel
+    })
 
+results.sort(key = lambda x: x['fuel'])
+
+for result in results:
+    print(result)
 
 
 
